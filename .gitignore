@@ -31,3 +31,5 @@ coverage
 
 #secret token
 .env
+
+.vercel

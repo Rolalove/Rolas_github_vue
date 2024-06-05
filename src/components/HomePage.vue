@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { Octokit } from "octokit";
-import  rolaimg from "../assets/rolaimg.jpg";
+import rolaimg from "../assets/rolaimg.jpg";
 
 const github = ref(null);
+const isLoading = ref(false);
 const page = ref(1);
 const perPage = 4;
 const rolaimage = rolaimg;
@@ -21,6 +22,7 @@ const nextPage = () => {
 };
 
 const fetchRepo = (page, perPage) => {
+  isLoading.value = true;
   const octokit = new Octokit({
     auth: import.meta.env.VITE_API_URL,
   });
@@ -30,13 +32,33 @@ const fetchRepo = (page, perPage) => {
       console.log(respo);
       console.log(respo.data);
       github.value = respo.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      error.value = error;
+    })
+    .finally(() => {
+      isLoading.value = false;
     });
 };
+
 onMounted(() => {
   fetchRepo(page.value, perPage);
 });
 </script>
 <template>
+  <div
+    v-if="isLoading"
+    class="flex font-black justify-center items-center h-[100vh] w-[100%]"
+  >
+    <font-awesome-icon
+      icon="fa-solid fa-spinner"
+      spin-pulse
+      size="10x"
+      style="color: #002147"
+    />
+  </div>
+
   <main class="flex px-8 gap-10 max-sm:px-2 max-sm:flex-col-reverse sm:gap-0">
     <!-- //left -->
     <div class="w-[70%] max-sm:flex max-sm:flex-col max-sm:w-full">
@@ -49,13 +71,13 @@ onMounted(() => {
           :key="reposList.name"
         >
           <div class="flex justify-between items-center">
-            <p class="font-defaultfont text-lg text-[#002147] font-bold">
+            <p class="font-defaultfont text-xl text-[#002147] font-bold">
               {{ reposList.name }}
             </p>
             <RouterLink :to="'/repoDisplay/' + reposList.name"
               ><font-awesome-icon
                 icon="arrow-up-right-from-square"
-                size="20x"
+                size="lg"
                 style="color: rgb(0, 125, 86)"
             /></RouterLink>
           </div>
@@ -107,11 +129,7 @@ onMounted(() => {
     <div
       class="w-[30%] h-[100vh] bg-[#002147] ml-6 rounded px-6 py-3 max-sm:ml-0 max-sm:w-full max-sm:rounded max-sm:mt-5 max-sm:py-3"
     >
-      <img
-        className="h-[50vh] w-full rounded mb-3"
-        :src="rolaimage"
-        alt=""
-      />
+      <img className="h-[50vh] w-full rounded mb-3" :src="rolaimage" alt="" />
       <p class="text-[#70facb] w-full text-lg mb-2 font-semibold">
         Kofoworola Shonuyi
       </p>
@@ -120,19 +138,28 @@ onMounted(() => {
       <div>
         <div className="flex items-center text-white text-sm mb-2 gap-5">
           <p>
-            <font-awesome-icon icon="fa-regular fa-envelope" />
+            <font-awesome-icon
+              icon="fa-regular fa-envelope"
+              style="color: rgb(244, 191, 58)"
+            />
           </p>
           <p>skofoworola3@gmail.com</p>
         </div>
         <div className="flex  text-white items-center mb-4 text-sm gap-5">
           <p>
-            <font-awesome-icon icon="fa-solid fa-location-pin" />
+            <font-awesome-icon
+              icon="fa-solid fa-location-pin"
+              style="color: rgb(244, 191, 58)"
+            />
           </p>
           <p>Lagos Nigeria</p>
         </div>
         <div className="flex gap-5 text-white items-center mb-3   text-sm">
           <p>
-            <font-awesome-icon icon="fa-solid fa-link" />
+            <font-awesome-icon
+              icon="fa-solid fa-link"
+              style="color: rgb(244, 191, 58)"
+            />
           </p>
           <a href="https://github.com/Rolalove" target="_blank">
             https://github.com/Rolalove
@@ -141,13 +168,19 @@ onMounted(() => {
         <div className="flex text-white gap-20 mb-4 text-sm ">
           <div className="flex gap-3">
             <p>
-              <font-awesome-icon icon="fa-solid fa-user-plus" />
+              <font-awesome-icon
+                icon="fa-solid fa-user-plus"
+                style="color: rgb(244, 191, 58)"
+              />
             </p>
             <p className="text-white text-sm">Followers: 3</p>
           </div>
           <div className="flex gap-3">
             <p>
-              <font-awesome-icon icon="fa-solid fa-user-plus" />
+              <font-awesome-icon
+                icon="fa-solid fa-user-plus"
+                style="color: rgb(244, 191, 58)"
+              />
             </p>
 
             <p className="text-white text-sm">Following: 3</p>
@@ -155,9 +188,22 @@ onMounted(() => {
         </div>
         <div className="flex text-white gap-16 mb-4 text-sm ">
           <div className="flex gap-3">
-            <p className="text-white text-sm">Public Repo:34</p>
+            <p>
+              <font-awesome-icon
+                icon="fa-solid fa-pencil"
+                style="color: rgb(244, 191, 58)"
+              />
+            </p>
+            <p className="text-white text-sm">Public Repo:20</p>
           </div>
           <div className="flex gap-3">
+            <p>
+              <font-awesome-icon
+                icon="fa-solid fa-book"
+                style="color: rgb(244, 191, 58)"
+              />
+            </p>
+
             <p className="text-white text-sm">Public Gists: 1</p>
           </div>
         </div>

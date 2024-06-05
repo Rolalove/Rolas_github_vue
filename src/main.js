@@ -15,6 +15,9 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faBook} from "@fortawesome/free-solid-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(
@@ -26,7 +29,10 @@ library.add(
   faEnvelope,
   faLocationPin,
   faLink,
-  faUserPlus
+  faUserPlus,
+  faPencil,
+  faBook,
+  faSpinner
 );
 import { createApp } from "vue";
 import App from "./App.vue";
